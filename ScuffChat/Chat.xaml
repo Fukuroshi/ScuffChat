@@ -25,7 +25,7 @@
                 <SolidColorBrush Color="#FFC2C2C2" Opacity="0"/>
             </Label.Background>
         </Label>
-        <ListBox  VirtualizingStackPanel.IsVirtualizing="True" x:Name="ChatLog" HorizontalAlignment="Center" Height="343" Margin="0,26,0,0" VerticalAlignment="Top" Width="756" Background="#FF5D5959" Foreground="#FF21D7EA" MaxWidth="756" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox  VirtualizingStackPanel.IsVirtualizing="True" x:Name="ChatLog" HorizontalAlignment="Center" Height="343" Margin="0,0,0,0" VerticalAlignment="Top" Width="756" Background="#FF5D5959" Foreground="#FF21D7EA" MaxWidth="756" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
