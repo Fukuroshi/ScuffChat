@@ -5,27 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScuffChat"
         mc:Ignorable="d"
-        Title="ScuffChat v0.1" Height="468" Width="800" ResizeMode="NoResize" Icon="/toppng.com-large-troll-face-991x806.png">
+        Title="ScuffChat v0.1" Height="475" Width="800" ResizeMode="NoResize" Icon="/toppng.com-large-troll-face-991x806.png">
     <Window.Background>
         <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
     </Window.Background>
     <Grid>
-        <TextBox x:Name="MsgBox" HorizontalAlignment="Left" Margin="136,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="558" Foreground="#FF21D7EA" Height="36" MaxLength="2000">
+        <TextBox x:Name="MsgBox" HorizontalAlignment="Left" Margin="137,390,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="558" Foreground="#FF21D7EA" Height="36" MaxLength="2000">
             <TextBox.Background>
                 <SolidColorBrush Color="#FF5D5959" Opacity="1"/>
             </TextBox.Background>
         </TextBox>
-        <Button x:Name="SendMessageButton" Content="Send" HorizontalAlignment="Left" Margin="711,387,0,0" VerticalAlignment="Top" Height="36" Width="67" Foreground="#FF21D7EA" Click="SendMessageButton_Click">
+        <Button x:Name="SendMessageButton" Content="Send" HorizontalAlignment="Left" Margin="700,390,0,0" VerticalAlignment="Top" Height="36" Width="70" Foreground="#FF21D7EA" Click="SendMessageButton_Click">
             <Button.Background>
                 <SolidColorBrush Color="#FF5D5959" Opacity="1"/>
             </Button.Background>
         </Button>
-        <Label x:Name="UsernameLabel" Content="" HorizontalAlignment="Left" Margin="21,387,0,0" VerticalAlignment="Top" Width="110" Height="36" Foreground="#FF21D7EA" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+        <Label x:Name="UsernameLabel" Content="" HorizontalAlignment="Left" Margin="22,390,0,0" VerticalAlignment="Top" Width="110" Height="36" Foreground="#FF21D7EA" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
             <Label.Background>
                 <SolidColorBrush Color="#FFC2C2C2" Opacity="0"/>
             </Label.Background>
         </Label>
-        <ListBox  VirtualizingStackPanel.IsVirtualizing="True" x:Name="ChatLog" HorizontalAlignment="Center" Height="343" Margin="0,0,0,0" VerticalAlignment="Top" Width="756" Background="#FF5D5959" Foreground="#FF21D7EA" MaxWidth="756" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox  VirtualizingStackPanel.IsVirtualizing="True" x:Name="ChatLog" HorizontalAlignment="Center" Height="365" Margin="0,18,0,0" VerticalAlignment="Top" Width="756" Background="#FF5D5959" Foreground="#FF21D7EA" MaxWidth="756" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
