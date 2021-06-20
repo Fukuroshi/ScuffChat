@@ -31,12 +31,25 @@ namespace ScuffChat
             ipWindow.ShowDialog();
         }
 
-        private void ConnectButton_Click(object sender, RoutedEventArgs e)
-        {            
+        public void ConnectDB()
+        {
+            Name.Text = Name.Text.Replace("\'", "\'\'");
             userData.username = Name.Text;
             Chat chatWindow = new Chat();
             chatWindow.Show();
             this.Close();
+        }
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectDB();
+        }
+        void EnterClicked(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                ConnectDB();
+                e.Handled = true;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@
         <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
     </Window.Background>
     <Grid>
-        <TextBox x:Name="MsgBox" HorizontalAlignment="Left" Margin="137,390,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="558" Foreground="#FF21D7EA" Height="36" MaxLength="2000">
+        <TextBox PreviewKeyDown="EnterClicked" x:Name="MsgBox" HorizontalAlignment="Left" Margin="137,390,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="558" Foreground="#FF21D7EA" Height="36" MaxLength="2000">
             <TextBox.Background>
                 <SolidColorBrush Color="#FF5D5959" Opacity="1"/>
             </TextBox.Background>

@@ -28,17 +28,15 @@ namespace ScuffChat
         {
             InitializeComponent();
             FillList();
-            //           connectionInfo connect = new connectionInfo(ServerIP.ip);
-            //           conn = new SqlConnection(connect.connectionString);
-            //           conn.Open();
-            UsernameLabel.Content = userData.username + ":";
+            UsernameLabel.Content = userData.username.Replace("\'\'", "\'") + ":";
             ChatLog.SelectedIndex = ChatLog.Items.Count - 1;
             ChatLog.ScrollIntoView(ChatLog.SelectedItem);
             ChatLog.SelectedIndex = -1;
         }
 
-        private void SendMessageButton_Click(object sender, RoutedEventArgs e)
+        public void SendMSG()
         {
+            MsgBox.Text = MsgBox.Text.Replace("\'", "\'\'");
             connectionInfo connect = new connectionInfo(ServerIP.ip);
             conn = new SqlConnection(connect.connectionString);
             conn.Open();
@@ -49,10 +47,26 @@ namespace ScuffChat
             based.InsertCommand.ExecuteNonQuery();
             cmd.Dispose();
             FillList();
-            conn.Close(); 
+            conn.Close();
             ChatLog.SelectedIndex = ChatLog.Items.Count - 1;
             ChatLog.ScrollIntoView(ChatLog.SelectedItem);
             ChatLog.SelectedIndex = -1;
+            MsgBox.Text = "";
+        }
+
+
+        private void SendMessageButton_Click(object sender, RoutedEventArgs e)
+        {
+            SendMSG();
+        }
+
+        void EnterClicked(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                SendMSG();
+                e.Handled = true;
+            }
         }
 
         public void FillList()
