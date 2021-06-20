@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScuffChat", "ScuffChat\ScuffChat.csproj", "{1E17193C-3C65-4F6A-B844-9BDA6976C9DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F254BCF7-4BE1-4E87-BB67-23143B555604}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E17193C-3C65-4F6A-B844-9BDA6976C9DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E17193C-3C65-4F6A-B844-9BDA6976C9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E17193C-3C65-4F6A-B844-9BDA6976C9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E17193C-3C65-4F6A-B844-9BDA6976C9DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F329E933-51E6-4900-8A0C-68E8B64F8F67}
+	EndGlobalSection
+EndGlobal
