@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -29,11 +30,16 @@ namespace ScuffChat
             InitializeComponent();
             FillList();
             UsernameLabel.Content = userData.username.Replace("\'\'", "\'") + ":";
-            ChatLog.SelectedIndex = ChatLog.Items.Count - 1;
-            ChatLog.ScrollIntoView(ChatLog.SelectedItem);
-            ChatLog.SelectedIndex = -1;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(3);
+            timer.Tick += timer_Tick;
+            timer.Start();
         }
-
+        void timer_Tick(object sender, EventArgs e)
+        {
+            FillList();
+        }
+        
         public void SendMSG()
         {
             MsgBox.Text = MsgBox.Text.Replace("\'", "\'\'");
@@ -48,9 +54,6 @@ namespace ScuffChat
             cmd.Dispose();
             FillList();
             conn.Close();
-            ChatLog.SelectedIndex = ChatLog.Items.Count - 1;
-            ChatLog.ScrollIntoView(ChatLog.SelectedItem);
-            ChatLog.SelectedIndex = -1;
             MsgBox.Text = "";
         }
 
@@ -94,6 +97,9 @@ namespace ScuffChat
                     });
                 }
                 ChatLog.ItemsSource = co1;
+                ChatLog.SelectedIndex = ChatLog.Items.Count - 1;
+                ChatLog.ScrollIntoView(ChatLog.SelectedItem);
+                ChatLog.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
