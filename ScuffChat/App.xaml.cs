@@ -19,7 +19,7 @@ namespace ScuffChat
     public class messageSend {
         public messageSend(string chosenName, string messageContents)
         {
-            sendMessage = "INSERT INTO messages VALUES(GETDATE(), '" + chosenName + "', '" + messageContents + "')";
+            sendMessage = "messageSend '" + chosenName + "', '" + messageContents + "'";
         }
         public string sendMessage { get; set; }
     }

@@ -79,7 +79,7 @@ namespace ScuffChat
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
                 conn = new SqlConnection(connect.connectionString);
                 conn.Open();
-                cmd = new SqlCommand("select * from messages", conn);
+                cmd = new SqlCommand("messageList", conn);
                 SqlDataAdapter BASED = new SqlDataAdapter();
                 based = new SqlDataAdapter(cmd);
                 ds = new DataSet();
