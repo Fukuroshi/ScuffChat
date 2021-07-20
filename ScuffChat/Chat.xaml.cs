@@ -123,11 +123,10 @@ namespace ScuffChat
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
                 conn = new SqlConnection(connect.connectionString);
                 conn.Open();
-                cmd = new SqlCommand("userList", conn);
-                SqlDataAdapter BASED = new SqlDataAdapter();
+                cmd = new SqlCommand("onlineUsers", conn);
                 based = new SqlDataAdapter(cmd);
                 ds = new DataSet();
-                based.Fill(ds, "online_users");
+                based.Fill(ds, "users");
                 userList msg = new userList();
                 IList<userList> co1 = new List<userList>();
 
@@ -135,7 +134,7 @@ namespace ScuffChat
                 {
                     co1.Add(new userList
                     {
-                        UserName = dr[1].ToString(),
+                        UserName = dr[0].ToString(),
                     });
                 }
                 UserList.ItemsSource = co1;

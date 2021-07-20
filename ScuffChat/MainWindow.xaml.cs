@@ -37,6 +37,11 @@ namespace ScuffChat
             ServerIP ipWindow = new ServerIP();
             ipWindow.ShowDialog();
         }
+        private void Register_Click(object sender, RoutedEventArgs e)
+        {
+            Register regForm = new Register();
+            regForm.ShowDialog();
+        }
 
         public void ConnectDB()
         {
@@ -48,31 +53,68 @@ namespace ScuffChat
         }
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            userLogin();
-            ConnectDB();
+            if (userLogin() == true)
+            {
+                userOnline();
+                ConnectDB();
+            }
+
+            else
+            {
+                Name.Text = "Incorrect login info.";
+            }
+            e.Handled = true;
         }
         void EnterClicked(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-                userLogin();
-                ConnectDB();
+                if(userLogin()==true)
+                {
+                    userOnline();
+                    ConnectDB();
+                }
+                else
+                {
+                    Name.Text = "Incorrect login info.";
+                }
                 e.Handled = true;
             }
         }
-        public void userLogin()
+        public bool userLogin()
+        {
+            bool correct = false;
+            Password.Password = Password.Password.Replace("\'", "\'\'");
+            connectionInfo connect = new connectionInfo(ServerIP.ip);
+            conn = new SqlConnection(connect.connectionString);
+            conn.Open();
+            ds = new DataSet();
+            pwdCheck login = new pwdCheck(Name.Text, Password.Password);
+            cmd = new SqlCommand(login.pwdChk, conn);
+            based = new SqlDataAdapter(cmd);
+            based.Fill(ds, "users");
+            IList<userList> co1 = new List<userList>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                if (Name.Text == dr[0].ToString()) correct = true;
+            }
+            cmd.Dispose();
+            conn.Close();
+            if (correct == true) return true;
+            else return false;
+        }
+        public void userOnline()
         {
             connectionInfo connect = new connectionInfo(ServerIP.ip);
             conn = new SqlConnection(connect.connectionString);
             conn.Open();
-            userAdd login = new userAdd(Name.Text);
-            cmd = new SqlCommand(login.userLogin, conn);
+            userAdd online = new userAdd(Name.Text);
+            cmd = new SqlCommand(online.userLogin, conn);
             based = new SqlDataAdapter();
-            based.InsertCommand = new SqlCommand(login.userLogin, conn);
+            based.InsertCommand = new SqlCommand(online.userLogin, conn);
             based.InsertCommand.ExecuteNonQuery();
             cmd.Dispose();
             conn.Close();
         }
-
     }
 }

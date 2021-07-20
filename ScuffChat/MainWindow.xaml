@@ -12,13 +12,23 @@
                 <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
             </TextBox.Background>
         </TextBox>
-        <Label x:Name="Welcome" Content="Welcome to ScuffChat&#xD;&#xA;    Enter your name." HorizontalAlignment="Center" Margin="0,59,0,0" VerticalAlignment="Top" Height="93" Width="328" FontSize="30" Background="Transparent" Foreground="#FF21D7EA" HorizontalContentAlignment="Center" UseLayoutRounding="False"/>
+        <PasswordBox PreviewKeyDown="EnterClicked" HorizontalContentAlignment="center" x:Name="Password" HorizontalAlignment="Center" Margin="0,226,0,0"  VerticalAlignment="Top" Width="298" Height="42" FontSize="28"  Foreground="#FF21D7EA" MaxLength="32" PasswordChar="•" >
+            <PasswordBox.Background>
+                <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
+            </PasswordBox.Background>
+        </PasswordBox>
+        <Label x:Name="Welcome" Content="Welcome to ScuffChat&#xA;       Please log in." HorizontalAlignment="Center" Margin="0,59,0,0" VerticalAlignment="Top" Height="93" Width="328" FontSize="30" Background="Transparent" Foreground="#FF21D7EA" HorizontalContentAlignment="Center" UseLayoutRounding="False"/>
         <Button x:Name="ConnectButton" Content="Log in" HorizontalAlignment="Center" Margin="0,273,0,0" VerticalAlignment="Top" Height="63" Width="94" Foreground="#FF21D7EA" FontSize="26" Click="ConnectButton_Click">
             <Button.Background>
                 <SolidColorBrush Color="#FF5D5959" Opacity="0.5"/>
             </Button.Background>
         </Button>
         <Button x:Name="IPChange" Content="Change server IP" HorizontalAlignment="Left" Margin="335,390,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA" Width="92" Click="IPChange_Click">
+            <Button.Background>
+                <SolidColorBrush Color="#FF5D5959" Opacity="0.3"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="Register" Content="Register" HorizontalAlignment="Left" Margin="335,365,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA" Width="92" Click="Register_Click">
             <Button.Background>
                 <SolidColorBrush Color="#FF5D5959" Opacity="0.3"/>
             </Button.Background>

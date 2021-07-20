@@ -44,7 +44,22 @@ namespace ScuffChat
             }
         }
     }
-
+    public class pwdCheck
+    {
+        public pwdCheck(string name, string pwd)
+        {
+            pwdChk = "login '" + name + "', '" + pwd + "'";
+        }
+        public string pwdChk{ get; set; }
+    }
+    public class availCheck
+    {
+        public availCheck(string name)
+        {
+            avChk = "availCheck '" + name + "'";
+        }
+        public string avChk { get; set; }
+    }
     public class messageSend {
         public messageSend(string chosenName, string messageContents)
         {
@@ -52,11 +67,19 @@ namespace ScuffChat
         }
         public string sendMessage { get; set; }
     }
+    public class newAccount
+    {
+        public newAccount(string chosenName, string chosenPass)
+        {
+            newAcc = "register '" + chosenName + "', '" + chosenPass + "'";
+        }
+        public string newAcc { get; set; }
+    }
     public class userAdd
     {
         public userAdd(string chosenName)
         {
-            userLogin = "userAdd '" + chosenName + "'";
+            userLogin = "online '" + chosenName + "'";
         }
         public string userLogin { get; set; }
     }
@@ -64,7 +87,7 @@ namespace ScuffChat
     {
         public userDel(string chosenName)
         {
-            userLogin = "userDel '" + chosenName + "'";
+            userLogin = "offline '" + chosenName + "'";
         }
         public string userLogin { get; set; }
     }

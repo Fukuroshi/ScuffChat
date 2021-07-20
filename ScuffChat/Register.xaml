@@ -1,0 +1,28 @@
+﻿<Window x:Class="ScuffChat.Register"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScuffChat"
+        mc:Ignorable="d"
+        Title="Register" Height="106" Width="235" WindowStyle="None" Background="#FF363636">
+    <Grid>
+        <TextBox x:Name="Name" HorizontalAlignment="Center" Margin="0,23,0,0" Text="name" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="#FF21D7EA" HorizontalContentAlignment="Center">
+            <TextBox.Background>
+                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+            </TextBox.Background>
+        </TextBox>
+        <PasswordBox x:Name="Password" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Width="121" Foreground="#FF21D7EA" HorizontalContentAlignment="Center" PasswordChar="•">
+            <PasswordBox.Background>
+                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+            </PasswordBox.Background>
+        </PasswordBox>
+        <Button x:Name="NewAccount" Content="Register" HorizontalAlignment="Left" Margin="131,69,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="#FF21D7EA" Click="NewAccount_Click">
+            <Button.Background>
+                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+            </Button.Background>
+        </Button>
+
+
+    </Grid>
+</Window>
