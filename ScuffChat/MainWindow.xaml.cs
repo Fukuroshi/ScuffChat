@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace ScuffChat
 {
@@ -19,8 +21,13 @@ namespace ScuffChat
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
+
     public partial class MainWindow : Window
     {
+        SqlConnection conn;
+        SqlCommand cmd;
+        DataSet ds;
+        SqlDataAdapter based;
         public MainWindow()
         {
             InitializeComponent();
@@ -41,15 +48,31 @@ namespace ScuffChat
         }
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+            userLogin();
             ConnectDB();
         }
         void EnterClicked(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
+                userLogin();
                 ConnectDB();
                 e.Handled = true;
             }
         }
+        public void userLogin()
+        {
+            connectionInfo connect = new connectionInfo(ServerIP.ip);
+            conn = new SqlConnection(connect.connectionString);
+            conn.Open();
+            userAdd login = new userAdd(Name.Text);
+            cmd = new SqlCommand(login.userLogin, conn);
+            based = new SqlDataAdapter();
+            based.InsertCommand = new SqlCommand(login.userLogin, conn);
+            based.InsertCommand.ExecuteNonQuery();
+            cmd.Dispose();
+            conn.Close();
+        }
+
     }
 }

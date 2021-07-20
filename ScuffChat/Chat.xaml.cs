@@ -28,7 +28,8 @@ namespace ScuffChat
         public Chat()
         {
             InitializeComponent();
-            FillList();
+            FillMSGList();
+            FillUserList();
             UsernameLabel.Content = userData.username.Replace("\'\'", "\'") + ":";
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(3);
@@ -37,7 +38,8 @@ namespace ScuffChat
         }
         void timer_Tick(object sender, EventArgs e)
         {
-            FillList();
+            FillMSGList();
+            FillUserList();
         }
         
         public void SendMSG()
@@ -52,7 +54,8 @@ namespace ScuffChat
             based.InsertCommand = new SqlCommand(msg.sendMessage, conn);
             based.InsertCommand.ExecuteNonQuery();
             cmd.Dispose();
-            FillList();
+            FillMSGList();
+            FillUserList();
             conn.Close();
             MsgBox.Text = "";
         }
@@ -72,7 +75,7 @@ namespace ScuffChat
             }
         }
 
-        public void FillList()
+        public void FillMSGList()
         {
             try
             {
@@ -100,6 +103,42 @@ namespace ScuffChat
                 ChatLog.SelectedIndex = ChatLog.Items.Count - 1;
                 ChatLog.ScrollIntoView(ChatLog.SelectedItem);
                 ChatLog.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                ds = null;
+                based.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+        public void FillUserList()
+        {
+            try
+            {
+                connectionInfo connect = new connectionInfo(ServerIP.ip);
+                conn = new SqlConnection(connect.connectionString);
+                conn.Open();
+                cmd = new SqlCommand("userList", conn);
+                SqlDataAdapter BASED = new SqlDataAdapter();
+                based = new SqlDataAdapter(cmd);
+                ds = new DataSet();
+                based.Fill(ds, "online_users");
+                userList msg = new userList();
+                IList<userList> co1 = new List<userList>();
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    co1.Add(new userList
+                    {
+                        UserName = dr[1].ToString(),
+                    });
+                }
+                UserList.ItemsSource = co1;
             }
             catch (Exception ex)
             {
