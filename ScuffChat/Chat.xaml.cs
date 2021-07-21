@@ -30,6 +30,7 @@ namespace ScuffChat
             InitializeComponent();
             FillMSGList();
             FillUserList();
+            FillOfflineUserList();
             UsernameLabel.Content = userData.username.Replace("\'\'", "\'") + ":";
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(3);
@@ -40,6 +41,7 @@ namespace ScuffChat
         {
             FillMSGList();
             FillUserList();
+            FillOfflineUserList();
         }
         
         public void SendMSG()
@@ -56,6 +58,7 @@ namespace ScuffChat
             cmd.Dispose();
             FillMSGList();
             FillUserList();
+            FillOfflineUserList();
             conn.Close();
             MsgBox.Text = "";
         }
@@ -116,6 +119,7 @@ namespace ScuffChat
                 conn.Dispose();
             }
         }
+
         public void FillUserList()
         {
             try
@@ -127,7 +131,6 @@ namespace ScuffChat
                 based = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 based.Fill(ds, "users");
-                userList msg = new userList();
                 IList<userList> co1 = new List<userList>();
 
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -149,6 +152,57 @@ namespace ScuffChat
                 based.Dispose();
                 conn.Close();
                 conn.Dispose();
+            }
+        }
+        public void FillOfflineUserList()
+        {
+            try
+            {
+                connectionInfo connect = new connectionInfo(ServerIP.ip);
+                conn = new SqlConnection(connect.connectionString);
+                conn.Open();
+                cmd = new SqlCommand("offlineUsers", conn);
+                based = new SqlDataAdapter(cmd);
+                ds = new DataSet();
+                based.Fill(ds, "users");
+                IList<userList> co1 = new List<userList>();
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    co1.Add(new userList
+                    {
+                        UserName = dr[0].ToString(),
+                    });
+                }
+                OfflineUserList.ItemsSource = co1;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                ds = null;
+                based.Dispose();
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        private void DMOpen_Click(object sender, RoutedEventArgs e)
+        {
+            userData.dmRecipient = DMName.Text;
+            DM dmWindow = new DM();
+            dmWindow.Show();
+        }
+        void DMEnterClicked(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                userData.dmRecipient = DMName.Text;
+                DM dmWindow = new DM();
+                dmWindow.Show();
+                e.Handled = true;
             }
         }
     }

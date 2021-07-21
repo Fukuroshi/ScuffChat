@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace ScuffChat
@@ -17,7 +16,6 @@ namespace ScuffChat
     {
         SqlConnection conn;
         SqlCommand cmd;
-        DataSet ds;
         SqlDataAdapter based;
         public void userLogoff()
         {
@@ -44,6 +42,14 @@ namespace ScuffChat
             }
         }
     }
+    public class onlineCheck
+    {
+        public onlineCheck(string name)
+        {
+            isOnline = "isOnline '" + name + "'";
+        }
+        public string isOnline { get; set; }
+    }
     public class pwdCheck
     {
         public pwdCheck(string name, string pwd)
@@ -63,9 +69,17 @@ namespace ScuffChat
     public class messageSend {
         public messageSend(string chosenName, string messageContents)
         {
-            sendMessage = "messageSend '" + chosenName + "', '" + messageContents + "'";
+            sendMessage = "messageSend '" + chosenName + "', N'" + messageContents + "'";
         }
         public string sendMessage { get; set; }
+    }
+    public class dmSend
+    {
+        public dmSend(string sender, string recipient, string messageContents)
+        {
+            sendDM= "sendDM '" + sender + "', '" + recipient + "', N'" + messageContents + "'";
+        }
+        public string sendDM { get; set; }
     }
     public class newAccount
     {
@@ -100,6 +114,7 @@ namespace ScuffChat
     public static class userData
     {
         public static string username { get; set; }
+        public static string dmRecipient { get; set; }
     }
     public class userList
     {
@@ -112,5 +127,22 @@ namespace ScuffChat
             connectionString = @"Data Source ="+serverIPaddr+"; Initial Catalog = ScuffChat; User ID = chat; Password = 12341234";
         }
         public string connectionString { get; set; }
+    }
+    public class DMWindow
+    {
+        public DMWindow(string sender, string recipient)
+        {
+            {
+                dmString = "dmList " + sender + ", " + recipient;
+            }
+        }
+    public string dmString { get; set; }
+
+    }
+    public class DMList
+    {
+        public DateTime Timestamp { get; set; }
+        public string UserName { get; set; }
+        public string MessageContents { get; set; }
     }
 }
