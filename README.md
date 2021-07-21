@@ -10,6 +10,6 @@ Set the server IP in launcher, then proceed to log in or register.
 wip
 
 
-##to do:
+### to do:
 - error message when connection fails
 - pause refreshing while hovering over message list
