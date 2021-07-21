@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ServerIP" Height="80" Width="235" WindowStyle="None" Background="#FF363636" Icon="/Icon.png">
     <Grid>
-        <TextBox x:Name="ServerIPAddress" HorizontalAlignment="Center" Margin="0,23,0,0" Text="localhost" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="#FF21D7EA" HorizontalContentAlignment="Center">
+        <TextBox x:Name="ServerIPAddress" HorizontalAlignment="Center" Margin="0,23,0,0" Text="85.89.166.234" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="#FF21D7EA" HorizontalContentAlignment="Center">
             <TextBox.Background>
                 <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
             </TextBox.Background>
