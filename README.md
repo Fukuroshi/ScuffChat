@@ -1,31 +1,15 @@
 # ScuffChat
-Chat app in C# and MS SQL
+Chat app in C# and MS SQL. Supports user accounts and direct messages.
 
 # Setup
-## SQL Server
-### Set the database up to look like this (including the name of the table)
-![gay](https://github.com/Fukuroshi/ScuffChat/blob/master/image_2021-06-20_195139.png)
 
-### Add user called **chat**
+## Client
+Set the server IP in launcher, then proceed to log in or register.
 
-### Run following queries:
-```sql
-create procedure messageList
-AS
-select * from messages
-```
-```sql
-create procedure messageSend
-@name varchar(32), @message varchar(2000)
-AS
-insert into messages values (GETDATE(), @name, @message)
-```
-```sql
-grant execute on messageSend to chat
+## Host
+wip
 
-grant execute on messageList to chat
-```
 
-### Connect to IP
-
-# It just works™
+### to do:
+- error message when connection fails
+- pause refreshing while hovering over message list
