@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -24,24 +25,22 @@ namespace ScuffChat
         SqlCommand cmd;
         DataSet ds;
         SqlDataAdapter based;
+        string title = "ScuffChat";
 
         public Chat()
         {
             InitializeComponent();
-            FillMSGList();
-            FillUserList();
-            FillOfflineUserList();
+            messageCount.currentCount = 0;
+            GetMSGCount();
             UsernameLabel.Content = userData.username.Replace("\'\'", "\'") + ":";
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(3);
-            timer.Tick += timer_Tick;
+            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Tick += Timer_Tick;
             timer.Start();
         }
-        void timer_Tick(object sender, EventArgs e)
+        void Timer_Tick(object sender, EventArgs e)
         {
-            FillMSGList();
-            FillUserList();
-            FillOfflineUserList();
+            GetMSGCount();
         }
         
         public void SendMSG()
@@ -56,9 +55,7 @@ namespace ScuffChat
             based.InsertCommand = new SqlCommand(msg.sendMessage, conn);
             based.InsertCommand.ExecuteNonQuery();
             cmd.Dispose();
-            FillMSGList();
-            FillUserList();
-            FillOfflineUserList();
+            GetMSGCount();
             conn.Close();
             MsgBox.Text = "";
         }
@@ -78,10 +75,42 @@ namespace ScuffChat
             }
         }
 
+        public void GetMSGCount()
+        {
+            connectionInfo connect = new connectionInfo(ServerIP.ip);
+            conn = new SqlConnection(connect.connectionString);
+            conn.Open();
+            cmd = new SqlCommand("messageAmount", conn);
+            based = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            based.Fill(ds, "messages");
+            messageCount.newCount = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+            if(this.IsActive==true)
+            {
+                if (this.ChatLog.IsMouseOver)
+                {
+                    title = "ScuffChat - " + (messageCount.newCount - messageCount.currentCount) + " new messages available.";
+                }
+                else if (messageCount.newCount != messageCount.currentCount)
+                {
+                    FillMSGList();
+                    title = "ScuffChat";
+                }
+                FillUserList();
+                FillOfflineUserList();
+            }
+            else
+            {
+                title = "ScuffChat - " + (messageCount.newCount - messageCount.currentCount) + " new messages available.";
+            }
+            this.Title = title;
+        }
+
         public void FillMSGList()
         {
             try
             {
+                messageCount.currentCount = messageCount.newCount;
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
                 conn = new SqlConnection(connect.connectionString);
                 conn.Open();

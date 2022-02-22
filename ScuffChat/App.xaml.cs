@@ -111,6 +111,11 @@ namespace ScuffChat
         public string UserName { get; set; }
         public string MessageContents { get; set; }
     }
+    public class messageCount
+    {
+        public static int currentCount { get; set; }
+        public static int newCount { get; set; }
+    }
     public static class userData
     {
         public static string username { get; set; }
@@ -136,8 +141,19 @@ namespace ScuffChat
                 dmString = "dmList " + sender + ", " + recipient;
             }
         }
-    public string dmString { get; set; }
-
+        public string dmString { get; set; }
+    }
+    public class DMCount
+    {
+        public DMCount(string sender, string recipient)
+        {
+            {
+                dmCountString = "dmAmount " + sender + ", " + recipient;
+            }
+        }
+        public string dmCountString { get; set; }
+        public static int currentCount { get; set; }
+        public static int newCount { get; set; }
     }
     public class DMList
     {

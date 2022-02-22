@@ -31,20 +31,21 @@ namespace ScuffChat
         public DM()
         {
             InitializeComponent();
+            DMCount.currentCount = 0;
             title = recipient + " - " + onlineChecker();
             this.Title = title;
-            FillMSGList();
+            GetMSGCount();
             UsernameLabel.Content = userData.username.Replace("\'\'", "\'") + ":";
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(3);
+            timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += timer_Tick;
             timer.Start();
         }
         void timer_Tick(object sender, EventArgs e)
         {
-            FillMSGList();
             title = recipient + " - " + onlineChecker();
             this.Title = title;
+            GetMSGCount();
         }
 
         public void SendMSG()
@@ -59,11 +60,40 @@ namespace ScuffChat
             based.InsertCommand = new SqlCommand(msg.sendDM, conn);
             based.InsertCommand.ExecuteNonQuery();
             cmd.Dispose();
-            FillMSGList();
+            GetMSGCount();
             conn.Close();
             MsgBox.Text = "";
         }
 
+        public void GetMSGCount()
+        {
+            connectionInfo connect = new connectionInfo(ServerIP.ip);
+            conn = new SqlConnection(connect.connectionString);
+            conn.Open();
+            DMCount dmCounter = new DMCount(userData.username, recipient);
+            cmd = new SqlCommand(dmCounter.dmCountString, conn);
+            based = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            based.Fill(ds, "dms");
+            DMCount.newCount = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+         
+            if (this.IsActive == true)
+            {
+                if (this.ChatLog.IsMouseOver)
+                {
+                    title = title + " - " + (DMCount.newCount - DMCount.currentCount) + " new messages available.";
+                }
+                else if (DMCount.newCount != DMCount.currentCount)
+                {
+                    FillMSGList();
+                }
+            }
+            else
+            {
+                title = title + " - " + (DMCount.newCount - DMCount.currentCount) + " new messages available.";
+            }
+            this.Title = title;
+        }
 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -83,6 +113,7 @@ namespace ScuffChat
         {
             try
             {
+                DMCount.currentCount = DMCount.newCount;
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
                 conn = new SqlConnection(connect.connectionString);
                 conn.Open(); 
