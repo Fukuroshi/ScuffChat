@@ -12,4 +12,4 @@ wip
 
 ### to do:
 - error message when connection fails
-- pause refreshing while hovering over message list
+- ~~pause refreshing while hovering over message list~~
