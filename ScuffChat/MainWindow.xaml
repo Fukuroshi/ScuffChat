@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScuffChat"
         mc:Ignorable="d"
-        Title="ScuffChat v2 - login" Height="450" Width="450" Background="#FF363636" Icon="/Icon.png">
+        Title="ScuffChat v3 - login" Height="450" Width="450" Background="#FF363636" Icon="/Icon.png">
     <Grid>
         <TextBox PreviewKeyDown="EnterClicked" x:Name="Name" HorizontalAlignment="Center" Margin="0,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="298" Height="42" FontSize="28" TextAlignment="Center" Foreground="#FF21D7EA" MaxLength="32" Text="name" >
             <TextBox.Background>

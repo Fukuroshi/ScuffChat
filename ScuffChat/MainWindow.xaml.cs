@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
+using Npgsql;
 
 namespace ScuffChat
 {
@@ -24,10 +25,10 @@ namespace ScuffChat
 
     public partial class MainWindow : Window
     {
-        SqlConnection conn;
-        SqlCommand cmd;
+        NpgsqlConnection conn;
+        NpgsqlCommand cmd;
         DataSet ds;
-        SqlDataAdapter based;
+        NpgsqlDataAdapter based;
         public MainWindow()
         {
             InitializeComponent();
@@ -53,15 +54,21 @@ namespace ScuffChat
         }
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (userLogin() == true)
+            if (userLogin() == 1)
             {
                 userOnline();
                 ConnectDB();
             }
-
+            else if (userLogin() == 2)
+            {
+                error err = new error();
+                err.Show();
+            }
             else
             {
-                Name.Text = "Incorrect login info.";
+                error err = new error();
+                err.errmsg.Content = "Incorrect login info.";
+                err.Show();
             }
             e.Handled = true;
         }
@@ -69,52 +76,75 @@ namespace ScuffChat
         {
             if (e.Key == Key.Return)
             {
-                if(userLogin()==true)
+                if(userLogin()==1)
                 {
                     userOnline();
                     ConnectDB();
                 }
+                else if(userLogin()==2)
+                {
+                    error err = new error();
+                    err.Show();
+                }
                 else
                 {
-                    Name.Text = "Incorrect login info.";
+                    error err = new error();
+                    err.errmsg.Content = "Incorrect login info.";
+                    err.Show();
                 }
                 e.Handled = true;
             }
         }
-        public bool userLogin()
+        public int userLogin()
         {
-            bool correct = false;
+            int correct = 0;
             Password.Password = Password.Password.Replace("\'", "\'\'");
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            ds = new DataSet();
-            pwdCheck login = new pwdCheck(Name.Text, Password.Password);
-            cmd = new SqlCommand(login.pwdChk, conn);
-            based = new SqlDataAdapter(cmd);
-            based.Fill(ds, "users");
-            IList<userList> co1 = new List<userList>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            try
             {
-                if (Name.Text == dr[0].ToString()) correct = true;
+                connectionInfo connect = new connectionInfo(ServerIP.ip);
+                conn = new NpgsqlConnection(connect.connectionString);
+                conn.Open();
+                ds = new DataSet();
+                pwdCheck login = new pwdCheck(Name.Text, Password.Password);
+                cmd = new NpgsqlCommand(login.pwdChk, conn);
+                based = new NpgsqlDataAdapter(cmd);
+                based.Fill(ds, "users");
+                IList<userList> co1 = new List<userList>();
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if (Name.Text == dr[0].ToString()) correct = 1;
+                    else Name.Text = dr[0].ToString();
+                }
+                cmd.Dispose();
+                conn.Close();
+                if (correct == 1) return 1;
+                else return 0;
             }
-            cmd.Dispose();
-            conn.Close();
-            if (correct == true) return true;
-            else return false;
+            catch (NpgsqlException ex)
+            {
+                return 2;
+            }
         }
         public void userOnline()
         {
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            userAdd online = new userAdd(Name.Text);
-            cmd = new SqlCommand(online.userLogin, conn);
-            based = new SqlDataAdapter();
-            based.InsertCommand = new SqlCommand(online.userLogin, conn);
-            based.InsertCommand.ExecuteNonQuery();
-            cmd.Dispose();
-            conn.Close();
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
+            {
+                conn.Open();
+                userAdd online = new userAdd(Name.Text);
+                cmd = new NpgsqlCommand(online.userLogin, conn);
+                based = new NpgsqlDataAdapter();
+                based.InsertCommand = new NpgsqlCommand(online.userLogin, conn);
+                based.InsertCommand.ExecuteNonQuery();
+                cmd.Dispose();
+                conn.Close();
+            }
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+            }
         }
     }
 }

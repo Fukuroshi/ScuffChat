@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Data;
 using System.Data.SqlClient;
+using Npgsql;
 
 namespace ScuffChat
 {
@@ -21,10 +22,10 @@ namespace ScuffChat
     /// </summary>
     public partial class Chat : Window
     {
-        SqlConnection conn;
-        SqlCommand cmd;
+        NpgsqlConnection conn;
+        NpgsqlCommand cmd;
         DataSet ds;
-        SqlDataAdapter based;
+        NpgsqlDataAdapter based;
         string title = "ScuffChat";
 
         public Chat()
@@ -47,17 +48,25 @@ namespace ScuffChat
         {
             MsgBox.Text = MsgBox.Text.Replace("\'", "\'\'");
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            messageSend msg = new messageSend(userData.username, MsgBox.Text);
-            cmd = new SqlCommand(msg.sendMessage, conn);
-            based = new SqlDataAdapter();
-            based.InsertCommand = new SqlCommand(msg.sendMessage, conn);
-            based.InsertCommand.ExecuteNonQuery();
-            cmd.Dispose();
-            GetMSGCount();
-            conn.Close();
-            MsgBox.Text = "";
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
+            {
+                conn.Open();
+                messageSend msg = new messageSend(userData.username, MsgBox.Text);
+                cmd = new NpgsqlCommand(msg.sendMessage, conn);
+                based = new NpgsqlDataAdapter();
+                based.InsertCommand = new NpgsqlCommand(msg.sendMessage, conn);
+                based.InsertCommand.ExecuteNonQuery();
+                cmd.Dispose();
+                GetMSGCount();
+                conn.Close();
+                MsgBox.Text = "";
+            }
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+            }
         }
 
 
@@ -78,32 +87,40 @@ namespace ScuffChat
         public void GetMSGCount()
         {
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            cmd = new SqlCommand("messageAmount", conn);
-            based = new SqlDataAdapter(cmd);
-            ds = new DataSet();
-            based.Fill(ds, "messages");
-            messageCount.newCount = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
-            if(this.IsActive==true)
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
             {
-                if (this.ChatLog.IsMouseOver)
+                conn.Open();
+                cmd = new NpgsqlCommand("select * from messageAmount()", conn);
+                based = new NpgsqlDataAdapter(cmd);
+                ds = new DataSet();
+                based.Fill(ds, "messages");
+                messageCount.newCount = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+                if (this.IsActive == true)
+                {
+                    if (this.ChatLog.IsMouseOver)
+                    {
+                        title = "ScuffChat - " + (messageCount.newCount - messageCount.currentCount) + " new messages available.";
+                    }
+                    else if (messageCount.newCount != messageCount.currentCount)
+                    {
+                        FillMSGList();
+                        title = "ScuffChat";
+                    }
+                    FillUserList();
+                    FillOfflineUserList();
+                }
+                else
                 {
                     title = "ScuffChat - " + (messageCount.newCount - messageCount.currentCount) + " new messages available.";
                 }
-                else if (messageCount.newCount != messageCount.currentCount)
-                {
-                    FillMSGList();
-                    title = "ScuffChat";
-                }
-                FillUserList();
-                FillOfflineUserList();
+                this.Title = title;
             }
-            else
+            catch (NpgsqlException ex)
             {
-                title = "ScuffChat - " + (messageCount.newCount - messageCount.currentCount) + " new messages available.";
+                error err = new error();
+                err.Show();
             }
-            this.Title = title;
         }
 
         public void FillMSGList()
@@ -112,11 +129,11 @@ namespace ScuffChat
             {
                 messageCount.currentCount = messageCount.newCount;
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new SqlConnection(connect.connectionString);
+                conn = new NpgsqlConnection(connect.connectionString);
                 conn.Open();
-                cmd = new SqlCommand("messageList", conn);
-                SqlDataAdapter BASED = new SqlDataAdapter();
-                based = new SqlDataAdapter(cmd);
+                cmd = new NpgsqlCommand("select * from messageList()", conn);
+                NpgsqlDataAdapter BASED = new NpgsqlDataAdapter();
+                based = new NpgsqlDataAdapter(cmd);
                 ds = new DataSet();
                 based.Fill(ds, "messages");
                 messageList msg = new messageList();
@@ -136,9 +153,10 @@ namespace ScuffChat
                 ChatLog.ScrollIntoView(ChatLog.SelectedItem);
                 ChatLog.SelectedIndex = -1;
             }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
-
+                error err = new error();
+                err.Show();
             }
             finally
             {
@@ -154,10 +172,10 @@ namespace ScuffChat
             try
             {
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new SqlConnection(connect.connectionString);
+                conn = new NpgsqlConnection(connect.connectionString);
                 conn.Open();
-                cmd = new SqlCommand("onlineUsers", conn);
-                based = new SqlDataAdapter(cmd);
+                cmd = new NpgsqlCommand("select * from onlineUsers()", conn);
+                based = new NpgsqlDataAdapter(cmd);
                 ds = new DataSet();
                 based.Fill(ds, "users");
                 IList<userList> co1 = new List<userList>();
@@ -171,9 +189,10 @@ namespace ScuffChat
                 }
                 UserList.ItemsSource = co1;
             }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
-
+                error err = new error();
+                err.Show();
             }
             finally
             {
@@ -188,10 +207,10 @@ namespace ScuffChat
             try
             {
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new SqlConnection(connect.connectionString);
+                conn = new NpgsqlConnection(connect.connectionString);
                 conn.Open();
-                cmd = new SqlCommand("offlineUsers", conn);
-                based = new SqlDataAdapter(cmd);
+                cmd = new NpgsqlCommand("select * from offlineUsers()", conn);
+                based = new NpgsqlDataAdapter(cmd);
                 ds = new DataSet();
                 based.Fill(ds, "users");
                 IList<userList> co1 = new List<userList>();
@@ -205,9 +224,10 @@ namespace ScuffChat
                 }
                 OfflineUserList.ItemsSource = co1;
             }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
-
+                error err = new error();
+                err.Show();
             }
             finally
             {

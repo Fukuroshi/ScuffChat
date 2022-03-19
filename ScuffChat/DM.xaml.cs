@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Data;
 using System.Data.SqlClient;
+using Npgsql;
 
 namespace ScuffChat
 {
@@ -21,10 +22,10 @@ namespace ScuffChat
     public partial class DM : Window
     {
 
-        SqlConnection conn;
-        SqlCommand cmd;
-        DataSet ds;
-        SqlDataAdapter based;
+        NpgsqlConnection conn;
+        NpgsqlCommand cmd;
+        DataSet dms;
+        NpgsqlDataAdapter based;
         string recipient = userData.dmRecipient;
         string title;
 
@@ -52,47 +53,63 @@ namespace ScuffChat
         {
             MsgBox.Text = MsgBox.Text.Replace("\'", "\'\'");
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            dmSend msg = new dmSend(userData.username, recipient, MsgBox.Text);
-            cmd = new SqlCommand(msg.sendDM, conn);
-            based = new SqlDataAdapter();
-            based.InsertCommand = new SqlCommand(msg.sendDM, conn);
-            based.InsertCommand.ExecuteNonQuery();
-            cmd.Dispose();
-            GetMSGCount();
-            conn.Close();
-            MsgBox.Text = "";
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
+            {
+                conn.Open();
+                dmSend msg = new dmSend(userData.username, recipient, MsgBox.Text);
+                cmd = new NpgsqlCommand(msg.sendDM, conn);
+                based = new NpgsqlDataAdapter();
+                based.InsertCommand = new NpgsqlCommand(msg.sendDM, conn);
+                based.InsertCommand.ExecuteNonQuery();
+                cmd.Dispose();
+                GetMSGCount();
+                conn.Close();
+                MsgBox.Text = "";
+            }
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+            }
         }
 
         public void GetMSGCount()
         {
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            DMCount dmCounter = new DMCount(userData.username, recipient);
-            cmd = new SqlCommand(dmCounter.dmCountString, conn);
-            based = new SqlDataAdapter(cmd);
-            ds = new DataSet();
-            based.Fill(ds, "dms");
-            DMCount.newCount = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
-         
-            if (this.IsActive == true)
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
             {
-                if (this.ChatLog.IsMouseOver)
+                conn.Open();
+                DMCount dmCounter = new DMCount(userData.username, recipient);
+                cmd = new NpgsqlCommand(dmCounter.dmCountString, conn);
+                based = new NpgsqlDataAdapter(cmd);
+                dms = new DataSet();
+                based.Fill(dms, "dms");
+                DMCount.newCount = Convert.ToInt32(dms.Tables[0].Rows[0][0].ToString());
+
+                if (this.IsActive == true)
+                {
+                    if (this.ChatLog.IsMouseOver)
+                    {
+                        title = title + " - " + (DMCount.newCount - DMCount.currentCount) + " new messages available.";
+                    }
+                    else if (DMCount.newCount != DMCount.currentCount)
+                    {
+                        FillMSGList();
+                    }
+                }
+                else
                 {
                     title = title + " - " + (DMCount.newCount - DMCount.currentCount) + " new messages available.";
                 }
-                else if (DMCount.newCount != DMCount.currentCount)
-                {
-                    FillMSGList();
-                }
+                this.Title = title;
             }
-            else
+            catch (NpgsqlException ex)
             {
-                title = title + " - " + (DMCount.newCount - DMCount.currentCount) + " new messages available.";
+                error err = new error();
+                err.Show();
             }
-            this.Title = title;
         }
 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -115,17 +132,17 @@ namespace ScuffChat
             {
                 DMCount.currentCount = DMCount.newCount;
                 connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new SqlConnection(connect.connectionString);
+                conn = new NpgsqlConnection(connect.connectionString);
                 conn.Open(); 
                 DMWindow dmLog = new DMWindow(userData.username, recipient);
-                cmd = new SqlCommand(dmLog.dmString, conn);
+                cmd = new NpgsqlCommand(dmLog.dmString, conn);
                 SqlDataAdapter BASED = new SqlDataAdapter();
-                based = new SqlDataAdapter(cmd);
-                ds = new DataSet();
-                based.Fill(ds, "dms");
+                based = new NpgsqlDataAdapter(cmd);
+                dms = new DataSet();
+                based.Fill(dms, "dms");
                 IList<DMList> co1 = new List<DMList>();
 
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                foreach (DataRow dr in dms.Tables[0].Rows)
                 {
                     co1.Add(new DMList
                     {
@@ -139,13 +156,14 @@ namespace ScuffChat
                 ChatLog.ScrollIntoView(ChatLog.SelectedItem);
                 ChatLog.SelectedIndex = -1;
             }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
-
+                error err = new error();
+                err.Show();
             }
             finally
             {
-                ds = null;
+                dms = null;
                 based.Dispose();
                 conn.Close();
                 conn.Dispose();
@@ -156,24 +174,33 @@ namespace ScuffChat
             bool online = false;
             string lastOnline = " ";
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            ds = new DataSet();
-            onlineCheck isOnline = new onlineCheck(recipient);
-            cmd = new SqlCommand(isOnline.isOnline, conn);
-            based = new SqlDataAdapter(cmd);
-            based.Fill(ds, "users");
-            IList<userList> co1 = new List<userList>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
             {
-                if (dr[0].ToString() == "1") online = true;
-                else
-                    lastOnline = dr[1].ToString();
+                conn.Open();
+                dms = new DataSet();
+                onlineCheck isOnline = new onlineCheck(recipient);
+                cmd = new NpgsqlCommand(isOnline.isOnline, conn);
+                based = new NpgsqlDataAdapter(cmd);
+                based.Fill(dms, "users");
+                IList<userList> co1 = new List<userList>();
+                foreach (DataRow dr in dms.Tables[0].Rows)
+                {
+                    if (dr[0].ToString() == "1") online = true;
+                    else
+                        lastOnline = dr[1].ToString();
+                }
+                cmd.Dispose();
+                conn.Close();
+                if (online == true) return "Online";
+                else return "Last online: " + lastOnline;
             }
-            cmd.Dispose();
-            conn.Close();
-            if (online == true) return "Online";
-            else return "Last online: " + lastOnline;
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+                return "";
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
+using Npgsql;
 
 
 namespace ScuffChat
@@ -24,47 +25,64 @@ namespace ScuffChat
         {
             InitializeComponent();
         }
-        SqlConnection conn;
-        SqlCommand cmd;
+        NpgsqlConnection conn;
+        NpgsqlCommand cmd;
         DataSet ds;
-        SqlDataAdapter based;
+        NpgsqlDataAdapter based;
 
         public void NewAcc()
         {
             Name.Text = Name.Text.Replace("\'", "\'\'");
             Password.Password = Password.Password.Replace("\'", "\'\'");
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            newAccount acc = new newAccount(Name.Text, Password.Password);
-            cmd = new SqlCommand(acc.newAcc, conn);
-            based = new SqlDataAdapter();
-            based.InsertCommand = new SqlCommand(acc.newAcc, conn);
-            based.InsertCommand.ExecuteNonQuery();
-            cmd.Dispose();
-            conn.Close();
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
+            {
+                conn.Open();
+                newAccount acc = new newAccount(Name.Text, Password.Password);
+                cmd = new NpgsqlCommand(acc.newAcc, conn);
+                based = new NpgsqlDataAdapter();
+                based.InsertCommand = new NpgsqlCommand(acc.newAcc, conn);
+                based.InsertCommand.ExecuteNonQuery();
+                cmd.Dispose();
+                conn.Close();
+            }
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+            }
         }
         public bool isUnavailable()
         {
             bool correct = false;
             Password.Password = Password.Password.Replace("\'", "\'\'");
             connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            ds = new DataSet();
-            availCheck login = new availCheck(Name.Text);
-            cmd = new SqlCommand(login.avChk, conn);
-            based = new SqlDataAdapter(cmd);
-            based.Fill(ds, "users");
-            IList<userList> co1 = new List<userList>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            conn = new NpgsqlConnection(connect.connectionString);
+            try
             {
-                if (Name.Text.ToLower() == dr[0].ToString().ToLower()) correct = true;
+                conn.Open();
+                ds = new DataSet();
+                availCheck login = new availCheck(Name.Text);
+                cmd = new NpgsqlCommand(login.avChk, conn);
+                based = new NpgsqlDataAdapter(cmd);
+                based.Fill(ds, "users");
+                IList<userList> co1 = new List<userList>();
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if (Name.Text.ToLower() == dr[0].ToString().ToLower()) correct = true;
+                }
+                cmd.Dispose();
+                conn.Close();
+                if (correct == true) return true;
+                else return false;
             }
-            cmd.Dispose();
-            conn.Close();
-            if (correct == true) return true;
-            else return false;
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+                return false;
+            }
         }
 
         private void NewAccount_Click(object sender, RoutedEventArgs e)

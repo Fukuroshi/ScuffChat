@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Data.SqlClient;
+using Npgsql;
 
 namespace ScuffChat
 {
@@ -14,21 +15,27 @@ namespace ScuffChat
     /// </summary>
     public partial class App : Application
     {
-        SqlConnection conn;
-        SqlCommand cmd;
-        SqlDataAdapter based;
+        NpgsqlConnection conn;
+        NpgsqlCommand cmd;
+        NpgsqlDataAdapter based;
         public void userLogoff()
         {
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new SqlConnection(connect.connectionString);
-            conn.Open();
-            userDel login = new userDel(userData.username);
-            cmd = new SqlCommand(login.userLogin, conn);
-            based = new SqlDataAdapter();
-            based.InsertCommand = new SqlCommand(login.userLogin, conn);
-            based.InsertCommand.ExecuteNonQuery();
-            cmd.Dispose();
-            conn.Close();
+            try
+            {
+                connectionInfo connect = new connectionInfo(ServerIP.ip);
+                conn = new NpgsqlConnection(connect.connectionString);
+                conn.Open();
+                userDel login = new userDel(userData.username);
+                cmd = new NpgsqlCommand(login.userLogin, conn);
+                based = new NpgsqlDataAdapter();
+                based.InsertCommand = new NpgsqlCommand(login.userLogin, conn);
+                based.InsertCommand.ExecuteNonQuery();
+                cmd.Dispose();
+                conn.Close();
+            }
+            catch (NpgsqlException ex)
+            {
+            }
         }
         protected override void OnExit(ExitEventArgs e)
         {
@@ -46,7 +53,7 @@ namespace ScuffChat
     {
         public onlineCheck(string name)
         {
-            isOnline = "isOnline '" + name + "'";
+            isOnline = "select * from isOnline('" + name + "')";
         }
         public string isOnline { get; set; }
     }
@@ -54,7 +61,7 @@ namespace ScuffChat
     {
         public pwdCheck(string name, string pwd)
         {
-            pwdChk = "login '" + name + "', '" + pwd + "'";
+            pwdChk = "select * from login('" + name + "', '" + pwd + "')";
         }
         public string pwdChk{ get; set; }
     }
@@ -62,14 +69,14 @@ namespace ScuffChat
     {
         public availCheck(string name)
         {
-            avChk = "availCheck '" + name + "'";
+            avChk = "select * from availCheck('" + name + "')";
         }
         public string avChk { get; set; }
     }
     public class messageSend {
         public messageSend(string chosenName, string messageContents)
         {
-            sendMessage = "messageSend '" + chosenName + "', N'" + messageContents + "'";
+            sendMessage = "call messageSend('" + chosenName + "', '" + messageContents + "')";
         }
         public string sendMessage { get; set; }
     }
@@ -77,7 +84,7 @@ namespace ScuffChat
     {
         public dmSend(string sender, string recipient, string messageContents)
         {
-            sendDM= "sendDM '" + sender + "', '" + recipient + "', N'" + messageContents + "'";
+            sendDM= "call sendDM('" + sender + "', '" + recipient + "', '" + messageContents + "')";
         }
         public string sendDM { get; set; }
     }
@@ -85,7 +92,7 @@ namespace ScuffChat
     {
         public newAccount(string chosenName, string chosenPass)
         {
-            newAcc = "register '" + chosenName + "', '" + chosenPass + "'";
+            newAcc = "call register('" + chosenName + "', '" + chosenPass + "')";
         }
         public string newAcc { get; set; }
     }
@@ -93,7 +100,7 @@ namespace ScuffChat
     {
         public userAdd(string chosenName)
         {
-            userLogin = "online '" + chosenName + "'";
+            userLogin = "call online('" + chosenName + "')";
         }
         public string userLogin { get; set; }
     }
@@ -101,7 +108,7 @@ namespace ScuffChat
     {
         public userDel(string chosenName)
         {
-            userLogin = "offline '" + chosenName + "'";
+            userLogin = "call offline('" + chosenName + "')";
         }
         public string userLogin { get; set; }
     }
@@ -129,7 +136,8 @@ namespace ScuffChat
     {
         public connectionInfo (string serverIPaddr)
         {
-            connectionString = @"Data Source ="+serverIPaddr+"; Initial Catalog = ScuffChat; User ID = chat; Password = 12341234";
+            if (serverIPaddr == null) serverIPaddr = "localhost";
+            connectionString = "Host="+serverIPaddr+";Username=chat;Password=12341234;database=chat";
         }
         public string connectionString { get; set; }
     }
@@ -138,7 +146,7 @@ namespace ScuffChat
         public DMWindow(string sender, string recipient)
         {
             {
-                dmString = "dmList " + sender + ", " + recipient;
+                dmString = "select * from dmList(" + "'" + sender + "', '" + recipient + "')";
             }
         }
         public string dmString { get; set; }
@@ -148,7 +156,7 @@ namespace ScuffChat
         public DMCount(string sender, string recipient)
         {
             {
-                dmCountString = "dmAmount " + sender + ", " + recipient;
+                dmCountString = "select * from dmAmount('" + sender + "', '" + recipient + "')";
             }
         }
         public string dmCountString { get; set; }
