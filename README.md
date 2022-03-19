@@ -1,5 +1,5 @@
 # ScuffChat
-Chat app in C# and MS SQL. Supports user accounts and direct messages.
+Chat app in C# and ~~MS SQL~~ postgreSQL. Supports user accounts and direct messages.
 
 # Setup
 
@@ -11,5 +11,5 @@ wip
 
 
 ### to do:
-- error message when connection fails
+- ~~error message when connection fails~~
 - ~~pause refreshing while hovering over message list~~
