@@ -137,7 +137,7 @@ namespace ScuffChat
         public connectionInfo (string serverIPaddr)
         {
             if (serverIPaddr == null) serverIPaddr = "localhost";
-            connectionString = "Host="+serverIPaddr+";Username=chat;Password=12341234;database=chat";
+            connectionString = "Host="+serverIPaddr+";Username=chat;Password=12341234;database=chat;Pooling=false";
         }
         public string connectionString { get; set; }
     }
