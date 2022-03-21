@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION messageList(
 				 "timestamp" timestamp with time zone,
 				 username varchar(32),
 				 contents varchar(3000))
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 
 AS $BODY$
 begin
@@ -19,7 +19,7 @@ CREATE OR REPLACE FUNCTION dmList(a varchar(32), b varchar(32))
 				 sender varchar(32),
                  recipient varchar(32),
 				 contents varchar(3000))
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 
 AS $BODY$
 begin
@@ -31,7 +31,7 @@ $BODY$;
 
 CREATE OR REPLACE FUNCTION dmAmount(a varchar(32), b varchar(32))
     RETURNS TABLE("count" bigint)
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
@@ -42,7 +42,7 @@ $BODY$;
 
 CREATE OR REPLACE FUNCTION messageAmount()
     RETURNS TABLE("count" bigint)
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
@@ -53,7 +53,7 @@ $BODY$;
 CREATE OR REPLACE FUNCTION isOnline(a varchar(32))
     RETURNS TABLE("onl" boolean,
     "lastonl" timestamp with time zone)
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
@@ -63,18 +63,18 @@ $BODY$;
 
 CREATE OR REPLACE FUNCTION login(a varchar(32), b varchar(32))
     RETURNS TABLE("user" varchar(32))
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
 select username from users
-where username = user and password=crypt(b, password);
+where username = a and password=crypt(b, password);
 end
 $BODY$;
 
 CREATE OR REPLACE FUNCTION offlineUsers()
     RETURNS TABLE("user" varchar(32))
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
@@ -83,9 +83,20 @@ where online=false;
 end
 $BODY$;
 
+CREATE OR REPLACE FUNCTION availCheck()
+    RETURNS TABLE("user" varchar(32))
+    LANGUAGE 'plpgsql' SECURITY DEFINER
+AS $BODY$
+begin
+return query
+select username from users
+where username=user;
+end
+$BODY$;
+
 CREATE OR REPLACE FUNCTION onlineUsers()
     RETURNS TABLE("user" varchar(32))
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
@@ -96,7 +107,7 @@ $BODY$;
 
 CREATE OR REPLACE FUNCTION onlineUserAmount()
     RETURNS TABLE("count" int)
-    LANGUAGE 'plpgsql'
+    LANGUAGE 'plpgsql' SECURITY DEFINER
 AS $BODY$
 begin
 return query
@@ -104,3 +115,4 @@ select count(username) from users
 where online=true;
 end
 $BODY$;
+
