@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Data.SqlClient;
+using System.Collections.Specialized;
 using Npgsql;
 
 namespace ScuffChat
@@ -15,6 +15,7 @@ namespace ScuffChat
     /// </summary>
     public partial class App : Application
     {
+
         NpgsqlConnection conn;
         NpgsqlCommand cmd;
         NpgsqlDataAdapter based;
@@ -136,8 +137,8 @@ namespace ScuffChat
     {
         public connectionInfo (string serverIPaddr)
         {
-            if (serverIPaddr == null) serverIPaddr = "localhost";
-            connectionString = "Host="+serverIPaddr+";Username=chat;Password=12341234;database=chat;Pooling=false";
+            if (serverIPaddr == null) serverIPaddr = Properties.Settings.Default.server_ip;
+            connectionString = "Host="+serverIPaddr+";Username=chat;Password=12341234;database=chat";
         }
         public string connectionString { get; set; }
     }

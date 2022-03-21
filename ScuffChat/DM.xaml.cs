@@ -11,7 +11,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Data;
-using System.Data.SqlClient;
 using Npgsql;
 
 namespace ScuffChat
@@ -21,8 +20,8 @@ namespace ScuffChat
     /// </summary>
     public partial class DM : Window
     {
-
-        NpgsqlConnection conn;
+        static connectionInfo connect = new connectionInfo(ServerIP.ip);
+        NpgsqlConnection conn = new NpgsqlConnection(connect.connectionString);
         NpgsqlCommand cmd;
         DataSet dms;
         NpgsqlDataAdapter based;
@@ -32,6 +31,15 @@ namespace ScuffChat
         public DM()
         {
             InitializeComponent();
+            try
+            {
+                conn.Open();
+            }
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+            }
             DMCount.currentCount = 0;
             title = recipient + " - " + onlineChecker();
             this.Title = title;
@@ -52,11 +60,8 @@ namespace ScuffChat
         public void SendMSG()
         {
             MsgBox.Text = MsgBox.Text.Replace("\'", "\'\'");
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new NpgsqlConnection(connect.connectionString);
             try
             {
-                conn.Open();
                 dmSend msg = new dmSend(userData.username, recipient, MsgBox.Text);
                 cmd = new NpgsqlCommand(msg.sendDM, conn);
                 based = new NpgsqlDataAdapter();
@@ -64,7 +69,6 @@ namespace ScuffChat
                 based.InsertCommand.ExecuteNonQuery();
                 cmd.Dispose();
                 GetMSGCount();
-                conn.Close();
                 MsgBox.Text = "";
             }
             catch (NpgsqlException ex)
@@ -76,11 +80,8 @@ namespace ScuffChat
 
         public void GetMSGCount()
         {
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new NpgsqlConnection(connect.connectionString);
             try
             {
-                conn.Open();
                 DMCount dmCounter = new DMCount(userData.username, recipient);
                 cmd = new NpgsqlCommand(dmCounter.dmCountString, conn);
                 based = new NpgsqlDataAdapter(cmd);
@@ -131,12 +132,8 @@ namespace ScuffChat
             try
             {
                 DMCount.currentCount = DMCount.newCount;
-                connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new NpgsqlConnection(connect.connectionString);
-                conn.Open(); 
                 DMWindow dmLog = new DMWindow(userData.username, recipient);
                 cmd = new NpgsqlCommand(dmLog.dmString, conn);
-                SqlDataAdapter BASED = new SqlDataAdapter();
                 based = new NpgsqlDataAdapter(cmd);
                 dms = new DataSet();
                 based.Fill(dms, "dms");
@@ -165,19 +162,14 @@ namespace ScuffChat
             {
                 dms = null;
                 based.Dispose();
-                conn.Close();
-                conn.Dispose();
             }
         }
         public string onlineChecker()
         {
             bool online = false;
             string lastOnline = " ";
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new NpgsqlConnection(connect.connectionString);
             try
             {
-                conn.Open();
                 dms = new DataSet();
                 onlineCheck isOnline = new onlineCheck(recipient);
                 cmd = new NpgsqlCommand(isOnline.isOnline, conn);
@@ -191,7 +183,6 @@ namespace ScuffChat
                         lastOnline = dr[1].ToString();
                 }
                 cmd.Dispose();
-                conn.Close();
                 if (online == true) return "Online";
                 else return "Last online: " + lastOnline;
             }

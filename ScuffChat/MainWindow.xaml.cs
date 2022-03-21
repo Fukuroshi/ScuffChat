@@ -13,8 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
-using System.Data.SqlClient;
 using Npgsql;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace ScuffChat
 {
@@ -32,6 +33,7 @@ namespace ScuffChat
         public MainWindow()
         {
             InitializeComponent();
+            Name.Text = Properties.Settings.Default.name;
         }
         private void IPChange_Click(object sender, RoutedEventArgs e)
         {
@@ -117,6 +119,8 @@ namespace ScuffChat
                 }
                 cmd.Dispose();
                 conn.Close();
+                if (Remember.IsChecked == true) Properties.Settings.Default.name = Name.Text;
+                Properties.Settings.Default.Save();
                 if (correct == 1) return 1;
                 else return 0;
             }

@@ -33,6 +33,11 @@
                 <SolidColorBrush Color="#FF5D5959" Opacity="0.3"/>
             </Button.Background>
         </Button>
+        <CheckBox x:Name="Remember" Content="Remember me" HorizontalAlignment="Left" Margin="335,344,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA" Background="#FF5B5B5B" BorderBrush="#FF25D0E1" IsChecked="True" FontSize="11">
+            <CheckBox.Style>
+                <Style/>
+            </CheckBox.Style>
+        </CheckBox>
 
     </Grid>
 </Window>

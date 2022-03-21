@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace ScuffChat
 {
@@ -20,6 +22,7 @@ namespace ScuffChat
         public ServerIP()
         {
             InitializeComponent();
+            ServerIPAddress.Text = Properties.Settings.Default.server_ip;
         }
 
         public static string ip;
@@ -27,8 +30,8 @@ namespace ScuffChat
         private void SetServerIPAddress_Click(object sender, RoutedEventArgs e)
         {
             ip = ServerIPAddress.Text;
+            Properties.Settings.Default.server_ip = ServerIPAddress.Text;
             this.Close();
-            
         }
     }
 }

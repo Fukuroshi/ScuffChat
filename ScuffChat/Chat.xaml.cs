@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Data;
-using System.Data.SqlClient;
 using Npgsql;
 
 namespace ScuffChat
@@ -20,16 +19,27 @@ namespace ScuffChat
     /// <summary>
     /// Interaction logic for Chat.xaml
     /// </summary>
+
     public partial class Chat : Window
     {
-        NpgsqlConnection conn;
+        static connectionInfo connect = new connectionInfo(ServerIP.ip);
+        NpgsqlConnection conn = new NpgsqlConnection(connect.connectionString);
         NpgsqlCommand cmd;
         DataSet ds;
         NpgsqlDataAdapter based;
         string title = "ScuffChat";
-
-        public Chat()
+        
+    public Chat()
         {
+            try
+            {
+                conn.Open();
+            }
+            catch (NpgsqlException ex)
+            {
+                error err = new error();
+                err.Show();
+            }
             InitializeComponent();
             messageCount.currentCount = 0;
             GetMSGCount();
@@ -47,11 +57,8 @@ namespace ScuffChat
         public void SendMSG()
         {
             MsgBox.Text = MsgBox.Text.Replace("\'", "\'\'");
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new NpgsqlConnection(connect.connectionString);
             try
             {
-                conn.Open();
                 messageSend msg = new messageSend(userData.username, MsgBox.Text);
                 cmd = new NpgsqlCommand(msg.sendMessage, conn);
                 based = new NpgsqlDataAdapter();
@@ -59,7 +66,6 @@ namespace ScuffChat
                 based.InsertCommand.ExecuteNonQuery();
                 cmd.Dispose();
                 GetMSGCount();
-                conn.Close();
                 MsgBox.Text = "";
             }
             catch (NpgsqlException ex)
@@ -86,11 +92,8 @@ namespace ScuffChat
 
         public void GetMSGCount()
         {
-            connectionInfo connect = new connectionInfo(ServerIP.ip);
-            conn = new NpgsqlConnection(connect.connectionString);
             try
             {
-                conn.Open();
                 cmd = new NpgsqlCommand("select * from messageAmount()", conn);
                 based = new NpgsqlDataAdapter(cmd);
                 ds = new DataSet();
@@ -128,9 +131,6 @@ namespace ScuffChat
             try
             {
                 messageCount.currentCount = messageCount.newCount;
-                connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new NpgsqlConnection(connect.connectionString);
-                conn.Open();
                 cmd = new NpgsqlCommand("select * from messageList()", conn);
                 NpgsqlDataAdapter BASED = new NpgsqlDataAdapter();
                 based = new NpgsqlDataAdapter(cmd);
@@ -162,8 +162,6 @@ namespace ScuffChat
             {
                 ds = null;
                 based.Dispose();
-                conn.Close();
-                conn.Dispose();
             }
         }
 
@@ -171,9 +169,6 @@ namespace ScuffChat
         {
             try
             {
-                connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new NpgsqlConnection(connect.connectionString);
-                conn.Open();
                 cmd = new NpgsqlCommand("select * from onlineUsers()", conn);
                 based = new NpgsqlDataAdapter(cmd);
                 ds = new DataSet();
@@ -198,17 +193,12 @@ namespace ScuffChat
             {
                 ds = null;
                 based.Dispose();
-                conn.Close();
-                conn.Dispose();
             }
         }
         public void FillOfflineUserList()
         {
             try
             {
-                connectionInfo connect = new connectionInfo(ServerIP.ip);
-                conn = new NpgsqlConnection(connect.connectionString);
-                conn.Open();
                 cmd = new NpgsqlCommand("select * from offlineUsers()", conn);
                 based = new NpgsqlDataAdapter(cmd);
                 ds = new DataSet();
@@ -233,8 +223,6 @@ namespace ScuffChat
             {
                 ds = null;
                 based.Dispose();
-                conn.Close();
-                conn.Dispose();
             }
         }
 
