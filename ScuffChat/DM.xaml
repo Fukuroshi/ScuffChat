@@ -29,19 +29,25 @@
                         Text="{Binding Timestamp, Mode=OneWay}"
                         IsReadOnly="True"
                         TextWrapping="Wrap" 
-                        Foreground="{DynamicResource acc1}"/>
+                        Foreground="{DynamicResource acc2}" 
+                        FontStyle="Italic"
+                        FontSize="9"/>
                         <TextBox Background="Transparent"
                         BorderThickness="0"
                         Text="{Binding UserName, Mode=OneWay}"
                         IsReadOnly="True"
                         TextWrapping="Wrap" 
-                        Foreground="{DynamicResource acc1}"/>
+                        Foreground="{DynamicResource acc2}"
+                        FontWeight="Bold" Margin="0,0,0,1"
+                        />
                         <TextBox Background="Transparent"
                         BorderThickness="0"
                         Text="{Binding MessageContents, Mode=OneWay}"
                         IsReadOnly="True"
                         TextWrapping="Wrap" 
-                        Foreground="{DynamicResource acc1}"/>
+                        Foreground="{DynamicResource acc1}"
+                        FontSize="14"
+                        Margin="0,0,0,0" MaxWidth="700" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
