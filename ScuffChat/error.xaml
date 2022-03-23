@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScuffChat"
         mc:Ignorable="d"
-        Title="Error" Height="106" Width="235" WindowStyle="None" Background="#FF363636" Icon="/Icon.png">
+        Title="Error" Height="106" Width="235" WindowStyle="None" Background="{DynamicResource bg1}" Icon="/Icon.png">
     <Grid>
-        <Button x:Name="Confirm" Content="OK" HorizontalAlignment="Center" Margin="0,64,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="#FF21D7EA" Click="confirm_Click" Padding="15,1,15,1" Grid.IsSharedSizeScope="True">
+        <Button x:Name="Confirm" Content="OK" HorizontalAlignment="Center" Margin="0,64,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="{DynamicResource acc1}" Click="confirm_Click" Padding="15,1,15,1" Grid.IsSharedSizeScope="True">
             <Button.Background>
-                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.5"/>
             </Button.Background>
         </Button>
-        <Label x:Name="errmsg" Content="Error connecting to the server." HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA"/>
+        <Label x:Name="errmsg" Content="Error connecting to the server." HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Foreground="{DynamicResource acc1}"/>
 
 
     </Grid>

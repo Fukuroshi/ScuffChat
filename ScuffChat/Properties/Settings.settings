@@ -8,5 +8,23 @@
     <Setting Name="server_ip" Type="System.String" Scope="User">
       <Value Profile="(Default)">85.89.166.234</Value>
     </Setting>
+    <Setting Name="bg1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FF343434</Value>
+    </Setting>
+    <Setting Name="bg2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FF5D5959</Value>
+    </Setting>
+    <Setting Name="acc1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FF21D7EA</Value>
+    </Setting>
+    <Setting Name="acc2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FF21D7EA</Value>
+    </Setting>
+    <Setting Name="theme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Dark</Value>
+    </Setting>
+    <Setting Name="accents" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Blue</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -15,7 +15,6 @@ namespace ScuffChat
     /// </summary>
     public partial class App : Application
     {
-
         NpgsqlConnection conn;
         NpgsqlCommand cmd;
         NpgsqlDataAdapter based;

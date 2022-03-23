@@ -5,27 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScuffChat"
         mc:Ignorable="d"
-        Title="" Height="475" Width="800" ResizeMode="NoResize" Icon="/Icon.png">
-    <Window.Background>
-        <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
-    </Window.Background>
+        Title="" Height="475" Width="800" ResizeMode="NoResize" Icon="/Icon.png" Background="{DynamicResource bg1}">
     <Grid Margin="0,0,0,0">
-        <TextBox PreviewKeyDown="EnterClicked" x:Name="MsgBox" HorizontalAlignment="Left" Margin="137,390,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="558" Foreground="#FF21D7EA" Height="36" MaxLength="2000">
+        <TextBox PreviewKeyDown="EnterClicked" x:Name="MsgBox" HorizontalAlignment="Left" Margin="137,390,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="558" Foreground="{DynamicResource acc1}" Height="36" MaxLength="2000">
             <TextBox.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="1"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="1"/>
             </TextBox.Background>
         </TextBox>
-        <Button x:Name="SendMessageButton" Content="Send" HorizontalAlignment="Left" Margin="700,390,0,0" VerticalAlignment="Top" Height="36" Width="70" Foreground="#FF21D7EA" Click="SendMessageButton_Click">
+        <Button x:Name="SendMessageButton" Content="Send" HorizontalAlignment="Left" Margin="700,390,0,0" VerticalAlignment="Top" Height="36" Width="70" Foreground="{DynamicResource acc1}" Click="SendMessageButton_Click">
             <Button.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="1"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="1"/>
             </Button.Background>
         </Button>
-        <Label x:Name="UsernameLabel" Content="" HorizontalAlignment="Left" Margin="22,390,0,0" VerticalAlignment="Top" Width="110" Height="36" Foreground="#FF21D7EA" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
-            <Label.Background>
-                <SolidColorBrush Color="#FFC2C2C2" Opacity="0"/>
-            </Label.Background>
+        <Label x:Name="UsernameLabel" Content="" HorizontalAlignment="Left" Margin="22,390,0,0" VerticalAlignment="Top" Width="110" Height="36" Foreground="{DynamicResource acc1}" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+
         </Label>
-        <ListBox  VirtualizingStackPanel.IsVirtualizing="True" x:Name="ChatLog" HorizontalAlignment="Left" Height="375" Margin="14,10,0,0" VerticalAlignment="Top" Width="756" Background="#FF5D5959" Foreground="#FF21D7EA" MaxWidth="756" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <ListBox  VirtualizingStackPanel.IsVirtualizing="True" x:Name="ChatLog" HorizontalAlignment="Left" Height="375" Margin="14,10,0,0" VerticalAlignment="Top" Width="756" Background="{DynamicResource bg3}" Foreground="{DynamicResource acc1}" MaxWidth="756" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -34,19 +29,19 @@
                         Text="{Binding Timestamp, Mode=OneWay}"
                         IsReadOnly="True"
                         TextWrapping="Wrap" 
-                        Foreground="#FF21D7EA"/>
+                        Foreground="{DynamicResource acc1}"/>
                         <TextBox Background="Transparent"
                         BorderThickness="0"
                         Text="{Binding UserName, Mode=OneWay}"
                         IsReadOnly="True"
                         TextWrapping="Wrap" 
-                        Foreground="#FF21D7EA"/>
+                        Foreground="{DynamicResource acc1}"/>
                         <TextBox Background="Transparent"
                         BorderThickness="0"
                         Text="{Binding MessageContents, Mode=OneWay}"
                         IsReadOnly="True"
                         TextWrapping="Wrap" 
-                        Foreground="#FF21D7EA"/>
+                        Foreground="{DynamicResource acc1}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

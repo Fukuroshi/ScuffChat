@@ -5,39 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScuffChat"
         mc:Ignorable="d"
-        Title="ScuffChat v3 - login" Height="450" Width="450" Background="#FF363636" Icon="/Icon.png">
+        Title="ScuffChat v3 - login" Height="450" Width="450" Background="{DynamicResource bg1}" Icon="/Icon.png">
     <Grid>
-        <TextBox PreviewKeyDown="EnterClicked" x:Name="Name" HorizontalAlignment="Center" Margin="0,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="298" Height="42" FontSize="28" TextAlignment="Center" Foreground="#FF21D7EA" MaxLength="32" Text="name" >
+        <TextBox PreviewKeyDown="EnterClicked" x:Name="Name" HorizontalAlignment="Center" Margin="0,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="298" Height="42" FontSize="28" TextAlignment="Center" Foreground="{DynamicResource acc1}" MaxLength="32" Text="name" >
             <TextBox.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.7"/>
             </TextBox.Background>
         </TextBox>
-        <PasswordBox PreviewKeyDown="EnterClicked" HorizontalContentAlignment="center" x:Name="Password" HorizontalAlignment="Center" Margin="0,226,0,0"  VerticalAlignment="Top" Width="298" Height="42" FontSize="28"  Foreground="#FF21D7EA" MaxLength="32" PasswordChar="•" >
+        <PasswordBox PreviewKeyDown="EnterClicked" HorizontalContentAlignment="center" x:Name="Password" HorizontalAlignment="Center" Margin="0,226,0,0"  VerticalAlignment="Top" Width="298" Height="42" FontSize="28"  Foreground="{DynamicResource acc1}" MaxLength="32" PasswordChar="•" >
             <PasswordBox.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="0.7"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.7"/>
             </PasswordBox.Background>
         </PasswordBox>
-        <Label x:Name="Welcome" Content="Welcome to ScuffChat&#xA;       Please log in." HorizontalAlignment="Center" Margin="0,59,0,0" VerticalAlignment="Top" Height="93" Width="328" FontSize="30" Background="Transparent" Foreground="#FF21D7EA" HorizontalContentAlignment="Center" UseLayoutRounding="False"/>
-        <Button x:Name="ConnectButton" Content="Log in" HorizontalAlignment="Center" Margin="0,273,0,0" VerticalAlignment="Top" Height="63" Width="94" Foreground="#FF21D7EA" FontSize="26" Click="ConnectButton_Click">
+        <Label x:Name="Welcome" Content="Welcome to ScuffChat&#xA;       Please log in." HorizontalAlignment="Center" Margin="0,59,0,0" VerticalAlignment="Top" Height="93" Width="328" FontSize="30" Background="Transparent" Foreground="{DynamicResource acc1}" HorizontalContentAlignment="Center" UseLayoutRounding="False"/>
+        <Button x:Name="ConnectButton" Content="Log in" HorizontalAlignment="Center" Margin="0,273,0,0" VerticalAlignment="Top" Height="63" Width="94" Foreground="{DynamicResource acc1}" FontSize="26" Click="ConnectButton_Click">
             <Button.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="0.5"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.5"/>
             </Button.Background>
         </Button>
-        <Button x:Name="IPChange" Content="Change server IP" HorizontalAlignment="Left" Margin="335,390,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA" Width="92" Click="IPChange_Click">
+        <Button x:Name="IPChange" Content="Change server IP" HorizontalAlignment="Left" Margin="333,362,0,0" VerticalAlignment="Top" Foreground="{DynamicResource acc1}" Width="92" Click="IPChange_Click">
             <Button.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="0.3"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.3"/>
             </Button.Background>
         </Button>
-        <Button x:Name="Register" Content="Register" HorizontalAlignment="Left" Margin="335,365,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA" Width="92" Click="Register_Click">
+        <Button x:Name="Register" Content="Register" HorizontalAlignment="Left" Margin="333,337,0,0" VerticalAlignment="Top" Foreground="{DynamicResource acc1}" Width="92" Click="Register_Click">
             <Button.Background>
-                <SolidColorBrush Color="#FF5D5959" Opacity="0.3"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.3"/>
             </Button.Background>
         </Button>
-        <CheckBox x:Name="Remember" Content="Remember me" HorizontalAlignment="Left" Margin="335,344,0,0" VerticalAlignment="Top" Foreground="#FF21D7EA" Background="#FF5B5B5B" BorderBrush="#FF25D0E1" IsChecked="True" FontSize="11">
+        <CheckBox x:Name="Remember" Content="Remember me" HorizontalAlignment="Left" Margin="333,316,0,0" VerticalAlignment="Top" Foreground="{DynamicResource acc1}" Background="{DynamicResource bg3}" BorderBrush="{DynamicResource acc1}" IsChecked="True" FontSize="11">
             <CheckBox.Style>
                 <Style/>
             </CheckBox.Style>
         </CheckBox>
+        <Button x:Name="Settings" Content="Settings" HorizontalAlignment="Left" Margin="333,387,0,0" VerticalAlignment="Top" Foreground="{DynamicResource acc1}" Width="92" Click="Settings_Click">
+            <Button.Background>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.3"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

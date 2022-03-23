@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:ScuffChat"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="bg1" Color="#FF343434" />
+        <Color x:Key="bg2" >#FF5D5959</Color>
+        <SolidColorBrush x:Key="bg3" Color="#FF5D5959" />
+        <SolidColorBrush x:Key="acc1" Color="#FF21D7EA" />
+        <SolidColorBrush x:Key="acc2" Color="#FF21D7EA" />
     </Application.Resources>
 </Application>

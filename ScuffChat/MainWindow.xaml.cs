@@ -34,18 +34,29 @@ namespace ScuffChat
         {
             InitializeComponent();
             Name.Text = Properties.Settings.Default.name;
+            this.Resources["bg1"] = (SolidColorBrush)(new BrushConverter().ConvertFrom(Properties.Settings.Default.bg1));
+            this.Resources["bg2"] = (Color)(new ColorConverter().ConvertFrom(Properties.Settings.Default.bg2));
+            this.Resources["bg3"] = (SolidColorBrush)(new BrushConverter().ConvertFrom(Properties.Settings.Default.bg2));
+            this.Resources["acc1"] = (SolidColorBrush)(new BrushConverter().ConvertFrom(Properties.Settings.Default.acc1));
+            this.Resources["acc2"] = (SolidColorBrush)(new BrushConverter().ConvertFrom(Properties.Settings.Default.acc2));
         }
         private void IPChange_Click(object sender, RoutedEventArgs e)
         {
             ServerIP ipWindow = new ServerIP();
             ipWindow.ShowDialog();
         }
+
         private void Register_Click(object sender, RoutedEventArgs e)
         {
             Register regForm = new Register();
             regForm.ShowDialog();
         }
 
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings setup = new Settings();
+            setup.ShowDialog();
+        }
         public void ConnectDB()
         {
             Name.Text = Name.Text.Replace("\'", "\'\'");

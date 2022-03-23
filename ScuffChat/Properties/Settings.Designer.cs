@@ -46,5 +46,77 @@ namespace ScuffChat.Properties {
                 this["server_ip"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF343434")]
+        public string bg1 {
+            get {
+                return ((string)(this["bg1"]));
+            }
+            set {
+                this["bg1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF5D5959")]
+        public string bg2 {
+            get {
+                return ((string)(this["bg2"]));
+            }
+            set {
+                this["bg2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF21D7EA")]
+        public string acc1 {
+            get {
+                return ((string)(this["acc1"]));
+            }
+            set {
+                this["acc1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF21D7EA")]
+        public string acc2 {
+            get {
+                return ((string)(this["acc2"]));
+            }
+            set {
+                this["acc2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Dark")]
+        public string theme {
+            get {
+                return ((string)(this["theme"]));
+            }
+            set {
+                this["theme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        public string accents {
+            get {
+                return ((string)(this["accents"]));
+            }
+            set {
+                this["accents"] = value;
+            }
+        }
     }
 }

@@ -5,26 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScuffChat"
         mc:Ignorable="d"
-        Title="Register" Height="106" Width="235" WindowStyle="None" Background="#FF363636" Icon="/Icon.png">
+        Title="Register" Height="106" Width="235" WindowStyle="None" Background="{DynamicResource bg1}" Icon="/Icon.png">
     <Grid>
-        <TextBox x:Name="Name" HorizontalAlignment="Center" Margin="0,23,0,0" Text="name" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="#FF21D7EA" HorizontalContentAlignment="Center">
+        <TextBox x:Name="Name" HorizontalAlignment="Center" Margin="0,23,0,0" Text="name" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="{DynamicResource acc1}" HorizontalContentAlignment="Center">
             <TextBox.Background>
-                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.5"/>
             </TextBox.Background>
         </TextBox>
-        <PasswordBox x:Name="Password" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Width="121" Foreground="#FF21D7EA" HorizontalContentAlignment="Center" PasswordChar="•">
+        <PasswordBox x:Name="Password" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top" Width="121" Foreground="{DynamicResource acc1}" HorizontalContentAlignment="Center" PasswordChar="•">
             <PasswordBox.Background>
-                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.5"/>
             </PasswordBox.Background>
         </PasswordBox>
-        <Button x:Name="NewAccount" Content="Register" HorizontalAlignment="Left" Margin="125,68,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="#FF21D7EA" Click="NewAccount_Click">
+        <Button x:Name="NewAccount" Content="Register" HorizontalAlignment="Left" Margin="125,68,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="{DynamicResource acc1}" Click="NewAccount_Click">
             <Button.Background>
-                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.5"/>
             </Button.Background>
         </Button>
-        <Button x:Name="Cancel" Content="X" HorizontalAlignment="Left" Margin="207,7,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="#FF21D7EA" Click="Cancel_Click">
+        <Button x:Name="Cancel" Content="X" HorizontalAlignment="Left" Margin="207,7,0,0" VerticalAlignment="Top" BorderBrush="#FF707070" Foreground="{DynamicResource acc1}" Click="Cancel_Click">
             <Button.Background>
-                <SolidColorBrush Color="#FF363636" Opacity="0.5"/>
+                <SolidColorBrush Color="{DynamicResource bg2}" Opacity="0.5"/>
             </Button.Background>
         </Button>
 
