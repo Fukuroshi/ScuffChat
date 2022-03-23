@@ -83,12 +83,12 @@ namespace ScuffChat
 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            SendMSG();
+            if(MsgBox.Text != "") SendMSG();
         }
 
         void EnterClicked(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return)
+            if (e.Key == Key.Return && MsgBox.Text !="")
             {
                 SendMSG();
                 e.Handled = true;
