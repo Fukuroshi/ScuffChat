@@ -183,7 +183,7 @@ namespace ScuffChat
                 IList<userList> co1 = new List<userList>();
                 foreach (DataRow dr in dms.Tables[0].Rows)
                 {
-                    if (dr[0].ToString() == "1") online = true;
+                    if ((bool)dr[0] == true) online = true;
                     else
                         lastOnline = dr[1].ToString();
                 }
