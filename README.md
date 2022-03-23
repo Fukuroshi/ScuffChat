@@ -1,5 +1,7 @@
 # ScuffChat
 Chat app in C# and ~~MS SQL~~ postgreSQL. Supports user accounts and direct messages.
+![image](https://user-images.githubusercontent.com/27998891/159696869-7d458bc6-01d4-4966-86d0-5934138e6508.png)
+
 
 # Setup
 
