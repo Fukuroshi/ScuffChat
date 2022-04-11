@@ -12,5 +12,6 @@
     GRANT EXECUTE ON FUNCTION public.onlineUsers() TO chat;
     GRANT EXECUTE ON FUNCTION public.offlineUsers() TO chat;
     GRANT EXECUTE ON FUNCTION public.onlineUserAmount() TO chat;
+    GRANT EXECUTE ON FUNCTION public.availcheck() TO chat;
     grant execute on function gen_salt(text) to chat
     
